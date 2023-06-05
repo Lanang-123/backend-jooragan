@@ -86,8 +86,27 @@ class ProductController extends Controller
      */
     public function show(Product $product,$id)
     {
-        $product = Product::with('category:id,nama_category')->with('franchisor:id,name')->with('paket:id,nama_paket')->with('reviews:id_user,comment,rating')->find($id);
-        return new ProductDetailResource($product);
+        $product = Product::with('category:id,nama_category')
+        ->with('franchisor:id,name')
+        ->with('paket:id,nama_paket')
+        ->with('reviews')
+        ->findOrFail($id);
+
+        $reviews = $product->reviews->map(function ($review) {
+            return [
+                'id_user' => $review->user,
+                'comment' => $review->comment,
+                'rating' => $review->rating,
+                // 'created' => $review->user->created_at,
+                // 'updated' => $review->user->updated_at,
+            ];
+        });
+
+
+        return [
+            'data' => new ProductDetailResource($product),
+            // 'reviews' => $reviews,
+        ];
     }
 
     public function showByCategory($id_category) {

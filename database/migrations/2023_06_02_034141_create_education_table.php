@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('education', function (Blueprint $table) {
+        Schema::create('educations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_category_education');
             $table->string('name_education');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('video_path');
             $table->timestamps();
             
-            $table->foreign('id_category_education')->references('id')->on('category_education')->onDelete('cascade');
+            $table->foreign('id_category_education')->references('id')->on('category_educations')->onDelete('cascade');
 
         });
     }

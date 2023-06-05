@@ -5,21 +5,19 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReviewResource extends JsonResource
+class PaketResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
      * @return array<string, mixed>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'user' => $this->franchisor->only(['id','name','created_at','updated_at']),
-            'comment' => $this->comment,
-            'rating' => $this->rating,
+            'nama_paket' => $this->nama_paket,
+            'description' => $this->description,
         ];
     }
 }
