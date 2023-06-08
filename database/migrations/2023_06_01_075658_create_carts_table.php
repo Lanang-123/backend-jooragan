@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user')->default(1);
             $table->unsignedBigInteger('id_product')->default(1);
+            $table->unsignedBigInteger('id_paket')->default(1);
             $table->integer('quantity')->default(0);
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_product')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('id_paket')->references('id')->on('pakets')->onDelete('cascade');
         });
     }
 

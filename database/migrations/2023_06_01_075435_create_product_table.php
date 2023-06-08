@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_category')->default(1);
             $table->unsignedBigInteger('id_user')->default(1);
-            $table->unsignedBigInteger('id_paket')->default(1);
             $table->string('title')->default('');
             $table->string('images')->default('');
             $table->integer('price')->default(0);
@@ -28,7 +27,7 @@ return new class extends Migration
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('id_paket')->references('id')->on('pakets')->onDelete('cascade');
+           
         });
     }
 

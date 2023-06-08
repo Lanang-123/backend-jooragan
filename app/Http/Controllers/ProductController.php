@@ -35,7 +35,6 @@ class ProductController extends Controller
         $request->validate([
             'id_category' => 'required',
             'id_user' => 'required',
-            'id_paket' => 'required',
             'title' => 'required',
             'file' => 'required',
             'price' => 'required',
@@ -53,7 +52,6 @@ class ProductController extends Controller
         $product = new Product();
         $product->id_category = $request->input('id_category');
         $product->id_user = $request->input('id_user');
-        $product->id_paket = $request->input('id_paket');
         $product->title = $request->input('title');
         $product->images = $filename.'.'.$extension;
         $product->price = $request->input('price');
@@ -130,7 +128,6 @@ class ProductController extends Controller
         $request->validate([
             'id_category' => 'required',
             'id_user' => 'required',
-            'id_paket' => 'required',
             'title' => 'required',
             'file' => 'required',
             'price' => 'required',
@@ -159,7 +156,6 @@ class ProductController extends Controller
     
         $product->id_category = $request->input('id_category');
         $product->id_user = $request->input('id_user');
-        $product->id_paket = $request->input('id_paket');
         $product->title = $request->input('title');
         $product->images = $filename.'.'.$extension;
         $product->price = $request->input('price');
