@@ -46,6 +46,7 @@ class EducationController extends Controller
         // Menyimpan video
         if ($request->hasFile('video_path')) {
             $video = $request->file('video_path');
+
             $path = $video->store('public/videos'); // Simpan video dalam direktori 'public/videos' di penyimpanan
 
             // Mendapatkan nama file yang disimpan
@@ -121,6 +122,7 @@ class EducationController extends Controller
         // Menyimpan video baru
         if ($request->hasFile('video_path')) {
             $video = $request->file('video_path');
+
             $path = $video->store('public/videos');
 
             $filename = basename($path);

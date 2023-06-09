@@ -30,11 +30,11 @@ class CategoryEducationController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'nama_category' => 'required'
+            'nama_education' => 'required'
         ]);
         
         $category = new CategoryEducation();
-        $category->nama_category = $request->input('nama_category');
+        $category->nama_education = $request->input('nama_education');
         $category->save();
         return response()->json(['message' => 'Data berhasil ditambahkan','data' => $category]);
     }
@@ -61,11 +61,11 @@ class CategoryEducationController extends Controller
     public function update(Request $request, CategoryEducation $categoryEducation,$id)
     {
         $validation = $request->validate([
-            'nama_category' => 'required'
+            'nama_education' => 'required'
         ]);
         
         $category = CategoryEducation::find($id);
-        $category->nama_category = $request->input('nama_category');
+        $category->nama_education = $request->input('nama_education');
         $category->save();
         return response()->json(['message' => 'Data berhasil diubah']);
     }
