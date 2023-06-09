@@ -69,7 +69,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/login',[AuthController::class,'login']);
-Route::get('/logout',[AuthController::class,'logout']);
+Route::get('/logout',[AuthController::class,'logout'])->middleware(['auth:sanctum']);
 Route::post('/register',[AuthController::class,'register']);
 
 Route::prefix('/products')->group(function () {
@@ -122,6 +122,7 @@ Route::prefix('/paket')->group(function () {
 Route::prefix('/education')->group(function () {
     Route::get('/',[EducationController::class,'index']);
     Route::get('/{id}',[EducationController::class,'show']);
+    Route::get('/video/{video_path}',[EducationController::class,'getVideo']);
     Route::post('/',[EducationController::class,'store']);
     Route::post('/{id}',[EducationController::class,'update']);
     Route::delete('/{id}',[EducationController::class,'destroy']);

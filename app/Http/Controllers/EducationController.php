@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Education;
+use App\Models\CategoryEducation;
 use Illuminate\Http\Request;
+use App\Http\Resources\EducationResource;
 
 class EducationController extends Controller
 {
@@ -33,7 +35,7 @@ class EducationController extends Controller
             'id_category_education' => 'required',
             'name_education' => 'required',
             'description' => 'required',
-            'video_path' => 'required|mimetypes:video/mp4|max:50000' // Menambahkan validasi tipe file dan ukuran maksimum
+            'video_path' => 'required|mimetypes:video/mp4' // Menambahkan validasi tipe file dan ukuran maksimum
         ]);
 
         $education = new Education();
@@ -63,9 +65,27 @@ class EducationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Education $education)
+    public function show(Education $education,$id)
     {
-        //
+        $education = Education::find($id);
+        $idCategory = CategoryEducation::find($education->id_category_education);
+        return response()->json([
+            'data' => $education,
+            'category'=> $idCategory
+        ]);
+    }
+
+    public function getVideo($video_path) {
+        $path = storage_path('app/public/videos/' . $video_path);
+
+        if (!file_exists($path)) {
+            return response()->json(['message' => 'Video not found.'], 404);
+        }
+
+        $file = file_get_contents($path);
+        $type = mime_content_type($path);
+
+        return response($file, 200)->header('Content-Type', $type);
     }
 
     /**
