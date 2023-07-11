@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_category')->default(1);
-            $table->unsignedBigInteger('id_user')->default(1);
+            $table->unsignedBigInteger('id_category');
+            $table->unsignedBigInteger('id_toko');
             $table->string('title')->default('');
             $table->string('images')->default('');
             $table->integer('price')->default(0);
@@ -25,9 +25,8 @@ return new class extends Migration
             $table->text('description')->default('');
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_toko')->references('id')->on('tokos')->onDelete('cascade');
             $table->foreign('id_category')->references('id')->on('categories')->onDelete('cascade');
-           
         });
     }
 

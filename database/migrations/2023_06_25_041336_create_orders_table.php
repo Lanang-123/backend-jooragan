@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user')->default(1);
+            $table->unsignedBigInteger('id_carts')->before('total');
             $table->integer('total',)->default(0);
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_carts')->references('id')->on('carts')->onDelete('cascade');
         });
     }
 

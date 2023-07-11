@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pakets', function (Blueprint $table) {
+        Schema::create('category_education', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_paket')->default('');
-            $table->string('description')->default('');
+            $table->string('nama_education');
+            $table->string('images')->default('');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pakets');
+        Schema::dropIfExists('category_education');
     }
 };

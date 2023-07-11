@@ -28,9 +28,9 @@ class ProductDetailResource extends JsonResource
             'location' => $this->location,
             'desc' => $this->description,
             'category' => $this->category,
-            'franchisor' => $this->franchisor,
-            'paket' => $this->paket,
+            'toko' => $this->toko,
             'reviews' => ReviewResource::collection($this->reviews),
+            'pakets' => $this->pakets
         ];
     }
 }

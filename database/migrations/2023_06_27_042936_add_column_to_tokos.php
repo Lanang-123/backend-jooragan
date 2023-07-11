@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pakets', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_paket')->default('');
-            $table->string('description')->default('');
-            $table->timestamps();
+        Schema::table('tokos', function (Blueprint $table) {
+            $table->text('description');
+            $table->string('icons');
         });
     }
 
@@ -24,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pakets');
+        Schema::table('tokos', function (Blueprint $table) {
+            $table->dropColumn('description');
+            $table->dropColumn('icons');
+        });
     }
 };

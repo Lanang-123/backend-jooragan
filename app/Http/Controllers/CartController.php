@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
+use App\Http\Resources\CartUserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -32,24 +35,28 @@ class CartController extends Controller
         $validation = $request->validate([
             'id_user' => 'required',
             'id_product' => 'required',
+            'id_paket' => 'required',
             'quantity' => 'required',
         ]);
-        
+
         $cart = new Cart();
         $cart->id_user = $request->input('id_user');
         $cart->id_product = $request->input('id_product');
+        $cart->id_paket = $request->input('id_paket');
         $cart->quantity = $request->input('quantity');
 
         $cart->save();
-        return response()->json(['message' => 'Data berhasil ditambahkan','data' => $cart]);
+        return response()->json(['message' => 'Data berhasil ditambahkan', 'data' => $cart]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function showByUser(Cart $cart)
     {
-        //
+        $idUser = Auth::user()->id;
+        $cartUser = Cart::with('user:id,name,email')->with('paket:id,nama_paket,description')->where('id_user', $idUser)->get();
+        return CartUserResource::collection($cartUser);
     }
 
     /**

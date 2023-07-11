@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Resources\ReviewResource;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -31,20 +32,24 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $validation = $request->validate([
-            'id_user' => 'required',
             'id_product' => 'required',
             'comment' => 'required',
             'rating' => 'required'
         ]);
 
         $review = new Review();
-        $review->id_user = $request->id_user;
+        if (Auth::check()) {
+            $loggedInUserId = Auth::id();
+            $review->id_user = $loggedInUserId;
+        } else {
+            return response()->json(['message' => "Silahkan login terlebih dahulu"], 400);
+        }
         $review->id_product = $request->id_product;
         $review->comment = $request->comment;
         $review->rating = $request->rating;
 
         $review->save();
-        return response()->json(['message' => 'Data berhasil ditambahkan'],201);
+        return response()->json(['message' => 'Data berhasil ditambahkan'], 201);
     }
 
     /**
@@ -70,20 +75,24 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $validation = $request->validate([
-            'id_user' => 'required',
             'id_product' => 'required',
             'comment' => 'required',
             'rating' => 'required'
         ]);
 
         $review = Review::find($id);
-        $review->id_user = $request->id_user;
+        if (Auth::check()) {
+            $loggedInUserId = Auth::id();
+            $review->id_user = $loggedInUserId;
+        } else {
+            return response()->json(['message' => "Silahkan login terlebih dahulu"], 400);
+        }
         $review->id_product = $request->id_product;
         $review->comment = $request->comment;
         $review->rating = $request->rating;
 
         $review->save();
-        return response()->json(['message' => 'Data berhasil diupdate'],200);
+        return response()->json(['message' => 'Data berhasil diupdate'], 200);
     }
 
     /**
@@ -96,7 +105,7 @@ class ReviewController extends Controller
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
         $review->delete();
-    
+
         return response()->json(['message' => 'Data berhasil dihapus']);
     }
 }

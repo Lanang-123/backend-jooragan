@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Paket;
 use Illuminate\Http\Request;
 use App\Http\Resources\PaketResource;
+use App\Models\Product;
 
 class PaketController extends Controller
 {
@@ -28,7 +29,7 @@ class PaketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id_product)
     {
         $validation = $request->validate([
             'nama_paket' => "required",
@@ -38,6 +39,7 @@ class PaketController extends Controller
         $paket = new Paket();
         $paket->nama_paket = $request->nama_paket;
         $paket->description = $request->description;
+        $paket->id_product = $id_product;
 
 
         $paket->save();
@@ -48,7 +50,7 @@ class PaketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Paket $paket,$id)
+    public function show(Paket $paket, $id)
     {
         $paket = Paket::findOrFail($id);
         return new PaketResource($paket);
@@ -65,7 +67,7 @@ class PaketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Paket $paket,$id)
+    public function update(Request $request, Paket $paket, $id)
     {
         $validation = $request->validate([
             'nama_paket' => "required",
@@ -90,14 +92,14 @@ class PaketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Paket $paket,$id)
+    public function destroy(Paket $paket, $id)
     {
         $paket = Paket::find($id);
         if (!$paket) {
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
         $paket->delete();
-    
+
         return response()->json(['message' => 'Data berhasil dihapus']);
     }
 }

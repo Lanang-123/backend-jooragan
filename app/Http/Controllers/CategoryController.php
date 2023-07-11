@@ -16,6 +16,8 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -37,8 +39,7 @@ class CategoryController extends Controller
         $category->nama_category = $request->input('nama_category');
 
         $category->save();
-        return response()->json(['message' => 'Data berhasil ditambahkan','data' => $category]);
-
+        return response()->json(['message' => 'Data berhasil ditambahkan', 'data' => $category]);
     }
 
     /**
@@ -46,7 +47,6 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
     }
 
     /**
@@ -60,23 +60,23 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category,$id)
+    public function update(Request $request, Category $category, $id)
     {
         $validation = $request->validate([
             'nama_category' => 'required'
         ]);
 
+
         $category = Category::find($id);
         $category->nama_category = $request->input('nama_category');
         $category->save();
-        return response()->json(['message' => 'Data berhasil diubah','data' => $category]);
-
+        return response()->json(['message' => 'Data berhasil diubah', 'data' => $category]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category,$id)
+    public function destroy(Category $category, $id)
     {
         $category = Category::find($id);
         $category->delete();

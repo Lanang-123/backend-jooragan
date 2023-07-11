@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Paket;
 use App\Models\User;
 use App\Models\Review;
+use App\Models\Cart;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,5 +35,19 @@ class Product extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'id_product', 'id');
+    }
+
+    public function toko(): BelongsTo
+    {
+        return $this->belongsTo(Toko::class, 'id_toko', 'id');
+    }
+    public function pakets(): HasMany
+    {
+        return $this->hasMany(Paket::class, 'id_product', 'id');
+    }
+
+    public function cart(): BelongsTo
+    {
+        return $this->belongsTo(Cart::class, 'id_product', 'id');
     }
 }

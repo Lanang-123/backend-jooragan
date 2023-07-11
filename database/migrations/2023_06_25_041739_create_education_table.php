@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_category_education')->references('id')->on('category_education')->onDelete('cascade');
-            });
+        });
     }
 
     /**
