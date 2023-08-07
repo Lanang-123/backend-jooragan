@@ -44,6 +44,7 @@ Route::prefix('/products')->group(function () {
 
 Route::prefix('/category')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/icons/{filename}', [CategoryController::class, 'getIcons']);
     Route::post('/', [CategoryController::class, 'store'])->middleware(['auth:sanctum']);
     Route::post('/{id}', [CategoryController::class, 'update'])->middleware(['auth:sanctum']);
     Route::delete('/{id}', [CategoryController::class, 'destroy'])->middleware(['auth:sanctum']);
@@ -104,6 +105,7 @@ Route::prefix('/reviews')->group(function () {
 Route::prefix('/toko')->group(function () {
     Route::get('/', [TokoController::class, 'index']);
     Route::get('/icons/{filename}', [TokoController::class, 'getIcons']);
+    Route::get('/mou/{filename}', [TokoController::class, 'getPDF']);
     Route::get('/owner', [TokoController::class, 'showByOwner'])->middleware(['auth:sanctum']);
     Route::post('/', [TokoController::class, 'store'])->middleware(['auth:sanctum']);
     Route::post('/{id}', [TokoController::class, 'update'])->middleware(['auth:sanctum']);

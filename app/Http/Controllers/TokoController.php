@@ -41,6 +41,27 @@ class TokoController extends Controller
         return response($file, 200)->header('Content-Type', $type);
     }
 
+    public function getPDF($filename)
+    {
+        $path = storage_path('app/mou/' . $filename);
+
+        if (!file_exists($path)) {
+            return response()->json(['message' => 'PDF not found.'], 404);
+        }
+
+        $file = file_get_contents($path);
+        $type = mime_content_type($path);
+        $base64PDF = base64_encode($file);
+
+        // Pastikan tipe konten adalah PDF
+        if ($type !== 'application/pdf') {
+            return response()->json(['message' => 'Invalid file type. Only PDF files are supported.'], 400);
+        }
+
+        return response()->json(['pdf' => $base64PDF, 'type' => $type]);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -50,7 +71,8 @@ class TokoController extends Controller
             'nama_toko' => 'required',
             'id_category' => 'required',
             'description' => 'required',
-            'icons' => 'required'
+            'icons' => 'required',
+            'mou' => 'required'
         ]);
 
         $user = Auth::user();
@@ -58,7 +80,9 @@ class TokoController extends Controller
 
         $filename = $this->generateRandomString();
         $extension = $request->icons->extension();
+        $mou_ext = $request->mou->extension();
         Storage::putFileAs('photos', $request->icons, $filename . '.' . $extension);
+        Storage::putFileAs('mou', $request->mou, $filename . '.' . $mou_ext);
 
         try {
             $toko = new Toko();
@@ -67,6 +91,7 @@ class TokoController extends Controller
             $toko->id_category = $request->input('id_category');
             $toko->description = $request->input('description');
             $toko->icons = $filename . '.' . $extension;
+            $toko->mou_file = $filename . '.' . $mou_ext;
             $toko->save();
 
             $newTokoCategory = $toko->id_category;
@@ -119,15 +144,16 @@ class TokoController extends Controller
 
         $filename = $this->generateRandomString();
         $extension = $request->icons->extension();
+        $mou_ext = $request->mou->extension();
         Storage::putFileAs('photos', $request->icons, $filename . '.' . $extension);
-
+        Storage::putFileAs('mou', $request->mou, $filename . '.' . $mou_ext);
         try {
-            $toko = new Toko();
             $toko->id_user = $id_user;
             $toko->nama_toko = $request->input('nama_toko');
             $toko->id_category = $request->input('id_category');
             $toko->description = $request->input('description');
             $toko->icons = $filename . '.' . $extension;
+            $toko->mou_file = $filename . '.' . $mou_ext;
             $toko->save();
 
             return response()->json(['message' => 'Data berhasil diupdate', 'success' => true]);
